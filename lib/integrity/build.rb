@@ -86,7 +86,7 @@ module Integrity
     end
 
     def author
-      (commit.author || Author.unknown).name
+      (Author.load(commit.author, nil) || Author.unknown).name
     end
 
     def committed_at
