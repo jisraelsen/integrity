@@ -22,7 +22,8 @@
             %span.completed<
               %label Completed:
               &== #{pretty_time build.started_at}
-            %br
+          %br
+          - if build.building? || build.completed?
             %span.elapsed<
               %label Elapsed:
               &== #{build.elapsed_time} seconds

@@ -30,6 +30,6 @@
                 
             %span.attribution<
               &== #{pretty_time build.started_at}
-              
-            %span.attribution.right<
-              &== (#{build.elapsed_time} seconds)
+            - if build.building? || build.completed?
+              %span.attribution.right<
+                &== (#{build.elapsed_time} seconds)
