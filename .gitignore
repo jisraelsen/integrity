@@ -1,4 +1,5 @@
 .bundle/*
+.sass-cache
 Gemfile.lock
 doc/integrity.html
 builds
