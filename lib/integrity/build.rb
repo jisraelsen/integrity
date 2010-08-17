@@ -60,7 +60,11 @@ module Integrity
     def repo
       project.repo
     end
-
+    
+    def pre_commands
+      project.pre_commands
+    end
+    
     def command
       project.command
     end

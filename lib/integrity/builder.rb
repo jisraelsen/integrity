@@ -12,11 +12,20 @@ module Integrity
 
     def build
       start
+      prepare
       run
       complete
       notify
     end
-
+    
+    def prepare
+      unless pre_commands.empty?
+        checkout.in_dir do |r|
+          pre_commands.each { |c| r.run! c }
+        end
+      end
+    end
+    
     def start
       @logger.info "Started building #{repo.uri} at #{commit}"
       checkout.run
@@ -52,7 +61,11 @@ module Integrity
     def repo
       @build.repo
     end
-
+    
+    def pre_commands
+      @build.pre_commands
+    end
+    
     def command
       @build.command
     end

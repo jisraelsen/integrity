@@ -5,13 +5,14 @@ module Integrity
     include DataMapper::Resource
     include Notifiers
 
-    property :id,         Serial
-    property :name,       String,   :required => true, :unique => true
-    property :permalink,  String
-    property :uri,        URI,      :required => true, :length => 255
-    property :branch,     String,   :required => true, :default => "master"
-    property :command,    String,   :required => true, :length => 255, :default => "rake"
-    property :public,     Boolean,  :default  => true
+    property :id,          Serial
+    property :name,        String,   :required => true,  :unique => true
+    property :permalink,   String
+    property :uri,         URI,      :required => true,  :length => 255
+    property :branch,      String,   :required => true,  :default => "master"
+    property :pre_command, String,   :required => false, :length => 255, :default => "mkdir log\ncp config/{test.,}database.yml"
+    property :command,     String,   :required => true,  :length => 255, :default => "rake"
+    property :public,      Boolean,  :default  => true
 
     timestamps :at
 
@@ -89,7 +90,11 @@ module Integrity
     def human_status
       ! blank? && last_build.human_status
     end
-
+    
+    def pre_commands
+      pre_command.to_s.split("\n").map(&:strip)
+    end
+    
     private
       def set_permalink
         attribute_set(:permalink,

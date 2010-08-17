@@ -17,12 +17,19 @@
     %label{ :for => "project_branch" }<
       &== Branch to track #{errors_on(@project, :branch)}
     %input.text#project_branch{ :name => "project_data[branch]", :type => "text", :value => h(@project.branch) }
-
+    
   %p.normal{ :class => error_class(@project, :command) }
     %label{ :for => "project_build_script" }
       &== Build script #{errors_on(@project, :command)}
     %textarea#project_build_script{ :name => "project_data[command]", :cols => 40, :rows => 2 }
       &== #{@project.command.to_s}
+        
+  %p.normal{ :class => error_class(@project, :pre_command) }
+    %label{ :for => "project_prebuild_script" }
+      &== Prebuild scripts #{errors_on(@project, :pre_command)}
+      %span.desc (one per line)
+    %textarea#project_prebuild_script{ :name => "project_data[pre_command]", :cols => 40, :rows => 4 }
+      = preserve @project.pre_command
 
   %p.normal.checkbox
     %label{ :for => "project_public" } Public project
