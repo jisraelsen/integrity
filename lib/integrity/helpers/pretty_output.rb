@@ -11,7 +11,15 @@ module Integrity
       def bash_color_codes(string)
         Bcat::ANSI.new(string).to_html
       end
-
+      
+      def pretty_time(date_time)
+        unless date_time
+          return "time not loaded"
+        end
+        
+        strftime_with_ordinal(date_time, "%Y-%m-%d %I:%M %p")
+      end
+      
       def pretty_date(date_time)
         unless date_time
           return "commit date not loaded"

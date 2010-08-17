@@ -56,7 +56,11 @@ module Integrity
     def completed?
       ! pending? && ! building?
     end
-
+    
+    def elapsed_time
+      @elapsed_time ||= Time.parse(completed_at.to_s) - Time.parse(started_at.to_s)
+    end
+    
     def repo
       project.repo
     end

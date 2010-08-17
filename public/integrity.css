@@ -230,7 +230,8 @@ a {
     #content #previous_builds li a strong {
       font-size: 1.3em; }
     #content #previous_builds li a .attribution {
-      font-size: 0.9em; }
+      font-size: 0.8em;
+      margin-left: 20px; }
   #content #projects li.success a, #content #previous_builds li.success a {
     background-color: #bbf8aa;
     border-color: #99d688;
@@ -346,3 +347,13 @@ span.desc {
   font-size: 0.8em;
   font-style: italic;
   color: #888888; }
+
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
+.meta span label {
+  width: 100px;
+  display: inline-block; }

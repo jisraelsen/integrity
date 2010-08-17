@@ -7,16 +7,40 @@
 
 %blockquote
   %p&= build.message
-  %p.meta<
-    %span.who<
-      &== by: #{build.author}
-    |
-    %span.when{ :title => build.committed_at }<
-      &= pretty_date build.committed_at
-    - if build.project.github?
-      |
-      %span.github<
-        %a{ :href => github_commit_url(build) } view on GitHub
+  
+  %table{:style => 'width:100%'}
+    %tr
+      %td{:style => 'width:50%;vertical-align:top'}
+        %p.meta<
+          %strong{:style => 'color:#555'} Build
+          %br
+          %span.started<
+            %label Started:
+            &== #{pretty_time build.started_at}
+          - if build.completed?
+            %br
+            %span.completed<
+              %label Completed:
+              &== #{pretty_time build.started_at}
+            %br
+            %span.elapsed<
+              %label Elapsed:
+              &== #{build.elapsed_time} seconds
+      %td{:style => 'width:50%;vertical-align:top'}
+        %p.meta<
+          %strong{:style => 'color:#555'} Commit
+          %br
+          %span.who<
+            %label Committer:
+            &== #{build.author}
+          %br
+          %span.when<
+            %label Committed:
+            &== #{pretty_time build.started_at}
+          - if build.project.github?
+            |
+            %span.github<
+              %a{ :href => github_commit_url(build) } view on GitHub
 
 - if build.completed?
   %h2
