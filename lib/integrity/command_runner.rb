@@ -39,10 +39,23 @@ module Integrity
 
     def normalize(cmd)
       if @dir
-        "(cd #{@dir} && #{cmd} 2>&1)"
+        "(#{pre_bundler_env} && cd #{@dir} && #{cmd} 2>&1)"
       else
-        "(#{cmd} 2>&1)"
+        "(#{pre_bundler_env} && #{cmd} 2>&1)"
       end
     end
+    
+    private
+      def pre_bundler_env
+        "RUBYOPT=#{pre_bundler_rubyopt} PATH=#{pre_bundler_path}"
+      end
+      
+      def pre_bundler_path
+        ENV['PATH'] && ENV["PATH"].split(":").reject { |path| path.include?("bundle") }.join(":")
+      end
+      
+      def pre_bundler_rubyopt
+        ENV['RUBYOPT'] && ENV["RUBYOPT"].split.reject { |opt| opt.include?("bundle") }.join(" ")
+      end
   end
 end
