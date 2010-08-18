@@ -61,6 +61,10 @@ module Integrity
       @elapsed_time ||= Time.parse(completed_at.to_s) - Time.parse(started_at.to_s)
     end
     
+    def workspace
+      project.workspace
+    end
+    
     def repo
       project.repo
     end

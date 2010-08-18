@@ -18,9 +18,10 @@ module Integrity
       notify
     end
     
+    # commands to run in build directories before building
     def prepare
       unless pre_commands.empty?
-        checkout.in_dir do |r|
+        checkout.in_build do |r|
           pre_commands.each { |c| r.run! c }
         end
       end
@@ -33,7 +34,7 @@ module Integrity
     end
 
     def run
-      @result = checkout.run_in_dir(command)
+      @result = checkout.run_in_build(command)
     end
 
     def complete
@@ -51,11 +52,15 @@ module Integrity
     end
 
     def checkout
-      @checkout ||= Checkout.new(repo, commit, directory, @logger)
+      @checkout ||= Checkout.new(repo, commit, workspace, directory, @logger)
     end
 
     def directory
       @_directory ||= @directory.join(@build.id.to_s)
+    end
+    
+    def workspace
+      @build.workspace
     end
 
     def repo

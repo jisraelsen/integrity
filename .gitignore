@@ -3,5 +3,6 @@
 Gemfile.lock
 doc/integrity.html
 builds
+workspace
 *.db
 *.log

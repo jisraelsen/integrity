@@ -30,6 +30,10 @@ module Integrity
     def repo
       @repo ||= Repository.new(uri, branch)
     end
+    
+    def workspace
+      File.join("workspace", permalink)
+    end
 
     def build_head
       build(Commit.new(:identifier => "HEAD"))
