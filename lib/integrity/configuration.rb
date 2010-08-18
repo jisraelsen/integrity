@@ -2,7 +2,8 @@ module Integrity
   class Configuration
     attr_reader :directory,
       :base_url,
-      :builder
+      :builder,
+      :workspace
 
     attr_accessor :build_all,
       :auto_branch,
@@ -38,7 +39,11 @@ module Integrity
     def directory=(dir)
       @directory = Pathname(dir)
     end
-
+    
+    def workspace=(dir)
+      @workspace = Pathname(dir)
+    end
+    
     def base_url=(url)
       @base_url = Addressable::URI.parse(url)
     end

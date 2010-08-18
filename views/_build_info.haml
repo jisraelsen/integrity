@@ -21,7 +21,7 @@
             %br
             %span.completed<
               %label Completed:
-              &== #{pretty_time build.started_at}
+              &== #{pretty_time build.completed_at}
           %br
           - if build.building? || build.completed?
             %span.elapsed<
@@ -37,7 +37,7 @@
           %br
           %span.when<
             %label Committed:
-            &== #{pretty_time build.started_at}
+            &== #{pretty_time build.committed_at}
           - if build.project.github?
             |
             %span.github<

@@ -22,6 +22,7 @@ require "integrity"
 Integrity.configure do |c|
   c.database     =  "sqlite3:integrity.db"
   c.directory    =  "builds"
+  c.workspace    =  "workspace"
   c.base_url     =  "http://ci.example.org"
   c.log          =  "integrity.log"
   c.github_token =  "SECRET"

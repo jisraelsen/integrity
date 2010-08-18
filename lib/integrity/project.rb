@@ -10,7 +10,7 @@ module Integrity
     property :permalink,   String
     property :uri,         URI,      :required => true,  :length => 255
     property :branch,      String,   :required => true,  :default => "master"
-    property :pre_command, String,   :required => false, :length => 255, :default => "mkdir log\ncp config/{test.,}database.yml"
+    property :pre_command, String,   :required => false, :length => 255, :default => "mkdir log"
     property :command,     String,   :required => true,  :length => 255, :default => "rake"
     property :public,      Boolean,  :default  => true
 
@@ -32,7 +32,7 @@ module Integrity
     end
     
     def workspace
-      File.join("workspace", permalink)
+      File.join(Integrity.config.workspace, permalink)
     end
 
     def build_head
