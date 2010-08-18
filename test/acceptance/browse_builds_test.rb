@@ -60,8 +60,8 @@ class BrowseBuildsTest < Test::Unit::AcceptanceTestCase
 
     assert_have_tag("h1",           :content => "Built 7fee3f0 successfully")
     assert_have_tag("blockquote p", :content => "No more pending tests")
-    assert_have_tag("span.who",     :content => "by: Nicolas Sanguinetti")
-    assert_have_tag("span.when",    :content => "Dec 15th")
+    assert_have_tag("span.who",     :content => "Nicolas Sanguinetti")
+    assert_have_tag("span.when",    :content => "2008-12-15 06:00 PM")
     assert_have_tag("pre.output",   :content => "This is the build output")
   end
 

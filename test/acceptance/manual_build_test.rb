@@ -26,7 +26,7 @@ class ManualBuildTest < Test::Unit::AcceptanceTestCase
   scenario "Triggering a successful build" do
     repo = git_repo(:my_test_project)
     repo.add_successful_commit
-    Project.gen(:my_test_project, :uri => repo.uri)
+    project = Project.gen(:my_test_project, :uri => repo.uri)
 
     login_as "admin", "test"
     visit "/my-test-project"
@@ -36,7 +36,7 @@ class ManualBuildTest < Test::Unit::AcceptanceTestCase
       assert_have_tag("h1",         :content => "HEAD hasn't been built yet")
       assert_have_tag("blockquote", :content => "message not loaded")
       assert_have_tag(".who",       :content => "author not loaded")
-      assert_have_tag(".when",      :content => "commit date not loaded")
+      assert_have_tag(".when",      :content => "time not loaded")
     end
 
     build
@@ -44,8 +44,8 @@ class ManualBuildTest < Test::Unit::AcceptanceTestCase
 
     assert_have_tag("h1", :content => "Built #{repo.short_head} successfully")
     assert_have_tag("blockquote p", :content => "This commit will work")
-    assert_have_tag("span.who",     :content => "by: John Doe")
-    assert_have_tag("span.when",    :content => "today")
+    assert_have_tag("span.who",     :content => "John Doe")
+    assert_have_tag("span.when",    :content => project.builds.last.committed_at.strftime('%Y-%m-%d %I:%M %p'))
     assert_have_tag("pre.output",   :content => "Running tests...")
   end
 

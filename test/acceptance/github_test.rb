@@ -64,7 +64,8 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
     visit "/my-test-project"
 
     assert_have_tag("h1", :content => "Built #{repo.short_head} successfully")
-    assert_have_tag(".attribution", :content => "by John Doe")
+    assert_have_tag(".attribution", :content => "2009-12-15")
+    assert_have_tag(".attribution.right", :content => "780.0 seconds")
     assert_have_tag("#previous_builds li", :count => 4)
   end
 
@@ -123,13 +124,15 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
       visit "/success"
 
       assert_have_tag("h1", :content => "Built #{repo.short_head} successfully")
-      assert_have_tag(".attribution", :content => "by John Doe")
+      assert_have_tag(".attribution", :content => "2009-12-15")
+      assert_have_tag(".attribution.right", :content => "780.0 seconds")
       assert_have_tag("#previous_builds li", :count => 4)
 
       visit "/failure"
 
       assert_have_tag("h1", :content => "Built #{repo.short_head} and failed")
-      assert_have_tag(".attribution", :content => "by John Doe")
+      assert_have_tag(".attribution", :content => "2009-12-15")
+      assert_have_tag(".attribution.right", :content => "780.0 seconds")
       assert_have_tag("#previous_builds li", :count => 4)
     ensure
       # TODO
@@ -150,7 +153,7 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
       repo.checkout "foo/bar"
       repo.add_successful_commit
 
-      Project.gen(:my_test_project, :uri => repo.uri, :branch => repo.branch)
+      project = Project.gen(:my_test_project, :uri => repo.uri, :branch => repo.branch)
 
       github_post payload(repo)
       assert_equal "1", last_response.body
@@ -158,8 +161,8 @@ class GitHubTest < Test::Unit::AcceptanceTestCase
       visit "/my-test-project"
       assert_have_tag "#last_build h1", :content => "#{repo.short_head} hasn't"
       assert_have_tag "p", :content => "foo/bar: This commit will work"
-      assert_have_tag "span.who", :content => "by: John Doe"
-      assert_have_tag "span.when", :content => "today"
+      assert_have_tag "span.who", :content => "John Doe"
+      assert_have_tag "span.when", :content => project.builds.last.committed_at.strftime('%Y-%m-%d %I:%M %p')
 
       # TODO
       Integrity.config.builder.wait!
