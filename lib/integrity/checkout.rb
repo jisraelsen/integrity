@@ -10,14 +10,15 @@ module Integrity
 
     def run
       runner.run! "git clone #{@repo.uri} #{@workspace}" unless File.directory?(@workspace)
-
+      runner.run! "mkdir -p #{base_build_path}" unless File.directory?(base_build_path)
+      
       in_workspace do |c|
         c.run! "git fetch origin"
         c.run! "git checkout origin/#{@repo.branch}"
         c.run! "git reset --hard #{sha1}"
         c.run! "git submodule update --init"
       end
-            
+      
       runner.run! "rsync -a --link-dest=#{workspace_path}/ #{workspace_path}/ #{build_path}/"
     end
 
@@ -44,6 +45,10 @@ module Integrity
     
     def build_path
       File.expand_path(@directory)
+    end
+    
+    def base_build_path
+      @directory.split("/")[0..-2].join("/")
     end
     
     def run_in_build(command)
