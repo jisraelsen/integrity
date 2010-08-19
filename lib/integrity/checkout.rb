@@ -48,7 +48,7 @@ module Integrity
     end
     
     def base_build_path
-      @directory.split("/")[0..-2].join("/")
+      File.expand_path(@directory.parent)
     end
     
     def run_in_build(command)
